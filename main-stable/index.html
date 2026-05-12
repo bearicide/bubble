@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Spell$lots! - Mother's Day Ed. v3.0 Stable</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Courgette&family=Marcellus&family=Cinzel:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="operator-panel" id="operatorPanel" aria-hidden="true">
+  <div class="operator-card">
+    <div class="operator-head">
+      <h3>Kim Operator Menu</h3>
+      <button class="op-close" id="opClose" type="button">×</button>
+    </div>
+
+    <div class="mini-player" id="miniPlayer">
+      <div class="mini-art" id="miniArt">
+        <span>🌹</span>
+      </div>
+      <div class="mini-info">
+        <div class="mini-title">Mother's Day Loop</div>
+        <div class="mini-subtitle">by <span class="mattbear-rainbow"><span>M</span><span>A</span><span>T</span><span>T</span><span>B</span><span>E</span><span>A</span><span>R</span></span></div>
+        <div class="mini-bars" id="miniBars">
+          <i></i><i></i><i></i><i></i><i></i><i></i>
+        </div>
+      </div>
+      <div class="mini-controls">
+        <button class="btn mini-btn" id="miniPlay" type="button">PLAY</button>
+        <button class="btn mini-btn" id="miniMute" type="button">MUTE</button>
+      </div>
+    </div>
+
+    <p class="op-note">Prototype tuning panel. Shortcut: Shift + Alt + M.</p>
+
+    <label>Machine Mood
+      <select id="opMode">
+        <option value="reserved">Reserved</option>
+        <option value="standard" selected>Standard</option>
+        <option value="warm">Warm</option>
+        <option value="queen">Queen's Favorite</option>
+        <option value="chaos">Chaos Bear</option>
+        <option value="custom">Custom</option>
+      </select>
+    </label>
+
+    <label>Forced Word Chance <span id="opWordChanceVal">24%</span>
+      <input id="opWordChance" type="range" min="0" max="45" value="24">
+    </label>
+
+    <label>Premium Symbol Boost <span id="opPremiumVal">100%</span>
+      <input id="opPremium" type="range" min="50" max="200" value="100">
+    </label>
+
+    <label>Queen Bonus Trigger Ease <span id="opQueenEaseVal">100%</span>
+      <input id="opQueenEase" type="range" min="60" max="180" value="100">
+    </label>
+
+    <label>Queen Bonus Min <span id="opQueenMinVal">35x</span>
+      <input id="opQueenMin" type="range" min="10" max="100" value="35">
+    </label>
+
+    <label>Queen Bonus Max <span id="opQueenMaxVal">250x</span>
+      <input id="opQueenMax" type="range" min="80" max="600" value="250">
+    </label>
+
+    <label>BIG WIN Chaos Threshold <span id="opChaosVal">200x</span>
+      <input id="opChaos" type="range" min="50" max="500" value="200">
+    </label>
+
+    <label>Auto Spin Delay <span id="opAutoDelayVal">900ms</span>
+      <input id="opAutoDelay" type="range" min="300" max="2000" step="100" value="900">
+    </label>
+
+    <div class="op-buttons">
+      <button class="btn small-btn" id="opApply" type="button">APPLY</button>
+      <button class="btn small-btn" id="opSave" type="button">SAVE</button>
+      <button class="btn small-btn" id="opReset" type="button">RESET SETTINGS</button>
+      <button class="btn small-btn" id="opClearProgress" type="button">CLEAR WORDS</button>
+    </div>
+
+    <div class="op-status" id="opStatus">Settings active for this session.</div>
+  </div>
+</div>
+
+<div class="help word-modal" id="wordModal">
+  <h3>Word Dictionary</h3>
+  <p>Found words glow after you discover them.</p>
+  <h4>2-letter words</h4>
+  <div class="dict-grid" id="dict2"></div>
+  <h4>3- and 4-letter words</h4>
+  <div class="dict-grid" id="dict3"></div>
+  <button class="continue-btn" id="wordClose" type="button">CLOSE</button>
+</div>
+
+<div class="splash" id="splash">
+  <div class="splash-card">
+    <div class="splash-kicker">custom for Kim</div>
+    <h1 class="splash-title">Spell$lots!</h1>
+    <div class="splash-edition">Mother's Day Edition</div>
+    <div class="splash-by">by <span class="mattbear-rainbow"><span>M</span><span>A</span><span>T</span><span>T</span><span>B</span><span>E</span><span>A</span><span>R</span></span></div>
+    <div class="splash-progress-wrap">
+      <div class="splash-progress" id="splashProgress"></div>
+    </div>
+    <div class="splash-percent" id="splashPercent">0%</div>
+    <div class="splash-note" id="splashNote">Loading...</div>
+    <button class="continue-btn" id="splashEnter" type="button" style="display:none;">START</button>
+  </div>
+</div>
+
+
+<audio id="bgMusic" preload="auto" src="audio/mother-day-loop.wav" loop></audio>
+<audio id="sSpin" preload="auto" src="audio/spin-start.wav"></audio>
+<audio id="sStop" preload="auto" src="audio/reel-stop.wav"></audio>
+<audio id="sSmall" preload="auto" src="audio/small-win.wav"></audio>
+<audio id="sBig" preload="auto" src="audio/big-win.wav"></audio>
+<audio id="sQueen" preload="auto" src="audio/queen-bonus.wav"></audio>
+<audio id="sClick" preload="auto" src="audio/button-click.wav"></audio>
+
+<div id="petals"></div><div id="sparkles"></div>
+<div class="toast" id="toast"><h2></h2><p></p><button class="continue-btn" id="toastContinue" type="button">CONTINUE</button></div>
+<div class="help" id="help"><h3>Controls</h3><p><b>Touch / Mouse:</b> Tap the buttons.</p><p><b>Keyboard:</b> Space spin, arrows bet, A auto, S sound, M music, I info.</p></div>
+
+<main class="app">
+  <aside class="panel">
+    <div class="brand"><div class="kicker">custom for Kim</div><h1>Spell$lots!</h1><div class="sub">Mother's Day Ed.</div></div>
+    <div class="mini">Main goal: tap SPIN, make words, and fill the bonus.</div>
+</div>
+    
+    <h2 class="court-title" style="margin-top:14px">Words</h2>
+    <button class="btn small-btn" id="wordsBtn" type="button">WORD LIST</button>
+    <div class="word-box" id="wordBox">
+      <div class="word-box-title">Found Words</div>
+      <div id="foundWords">None yet</div>
+    </div>
+
+    <div class="spin-log-card">
+      <div class="word-box-title">Last Spin Words</div>
+      <div id="lastSpinWords" class="spin-log empty">None yet</div>
+      <div class="word-box-title" style="margin-top:8px;">Recent Spins</div>
+      <div id="spinHistory" class="spin-history">No spins yet</div>
+    </div>
+
+  
+    <div class="mini" id="unlockText">Spell words to unlock more lines.</div>
+  </aside>
+
+  <section class="center">
+    <div class="cabinet" id="cabinet">
+      <div class="marquee"><h2>Mother's Day Edition</h2><p>Tap SPIN and enjoy.</p></div>
+      <div class="reel-frame" id="reelFrame"><svg class="payline-svg" id="paylineSvg"></svg><div class="reels" id="reels"></div></div>
+    </div>
+    <nav class="controls">
+    <div class="group"><button class="btn" id="betDown">− BET</button><div class="meter" id="betDisplay">BET $0.10</div><button class="btn" id="betUp">+ BET</button></div>
+    <button class="btn spin ready" id="spinBtn">SPIN</button>
+    <div class="group right"><button class="btn" id="autoBtn">AUTO OFF</button>
+      <select class="auto-select" id="autoCount" aria-label="Auto spin count">
+        <option value="10">10 spins</option>
+        <option value="25">25 spins</option>
+        <option value="50">50 spins</option>
+        <option value="100">100 spins</option>
+        <option value="0">Until stopped</option>
+      </select><button class="btn" id="soundBtn">SOUND ON</button><button class="btn" id="musicBtn">MUSIC ON</button><input class="vol" id="musicVol" type="range" min="0" max="100" value="28" aria-label="Music volume"><button class="btn" id="infoBtn">INFO</button><div class="meter" id="winDisplay">WIN $0.00</div></div>
+  </nav>
+
+    
+    <div class="overall-progress">
+      <div class="label">Game Progress</div>
+      <div class="progress"><div class="bar" id="overallBar"></div></div>
+      <div class="mini-progress-text" id="overallText">0% complete</div>
+    </div>
+<div class="bottom-stats" id="bottomStats">
+      
+    <div class="stat"><div class="label">Words Spelled</div><div class="value" id="wordsSpelled">0</div><div class="progress"><div class="bar" id="wordBar"></div></div></div>
+    <div class="stat"><div class="label">Active Paylines</div><div class="value"><span id="activeLines">4</span> / 10</div><div class="progress"><div class="bar" id="lineBar"></div></div></div>
+    <div class="stat"><div class="label">Bouquet</div><div class="value"><span id="bouquet">0</span> / 12</div><div class="progress"><div class="bar" id="bouquetBar"></div></div></div>
+    <div class="stat"><div class="label">Queen Bonus</div><div class="value"><span id="favor">0</span>%</div><div class="progress"><div class="bar" id="favorBar"></div></div>
+    </div>
+  </section>
+
+  <aside class="panel">
+    <h2 class="court-title">Queen's Court</h2>
+    <div class="prize"><strong>👑 Crown</strong><br>Big prize.</div>
+    <div class="prize"><strong>🪄 Scepter</strong><br>Bonus prize.</div>
+    <div class="prize"><strong>💖 Matthew & James</strong><br>Biggest prize.</div>
+    <h2 class="court-title" style="margin-top:14px">Tiles</h2>
+    <div class="badges"><span class="badge">🌹 Rose</span><span class="badge">💐 Bouquet</span><span class="badge">📞 Phone</span><span class="badge">👑 Crown</span><span class="badge">💎 Gem</span><span class="badge">🦁 Lioness</span></div>
+    <h2 class="court-title" style="margin-top:14px">Pays</h2>
+    <div class="prize">2-letter word pays 1x</div><div class="prize">3-letter word pays 5x</div><div class="prize">4-letter word pays 12x</div><div class="prize">LOVE / MATT pays 40x</div><div class="prize">WORD / PLAY pays 100x</div><div class="prize">4-letter word pays 12x<br>LOVE / MATT pays 40x<br>WORD / PLAY pays 100x</div>
+</aside>
+
+</main>
+
+<script src="js/app.js"></script>
+</body>
+</html>

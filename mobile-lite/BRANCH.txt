@@ -1,0 +1,1 @@
+mobile-lite: fastest build for Brave/mobile. Reduced particles and disabled chaos effects.

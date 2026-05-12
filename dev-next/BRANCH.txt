@@ -1,0 +1,10 @@
+dev-next:
+Use this for adding picture reel tiles, more CSS/JS modules, and future features.
+Recommended next split:
+- js/reel-engine.js
+- js/payline-engine.js
+- js/snake-engine.js
+- js/operator-panel.js
+- js/audio-engine.js
+- data/dictionary.json
+- data/paytable.json

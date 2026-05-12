@@ -1,0 +1,14 @@
+v3.0 Maintenance / Branch Split
+
+Completed:
+- Split single-file build into index.html, css/styles.css, js/app.js, audio/*.wav.
+- Removed base64 audio from HTML.
+- Added Brave-safe particle reductions to main-stable.
+- Created mobile-lite, arcade-chaos, and dev-next branches.
+- Preserved operator panel, mini-player, dictionary, progress, snake scan, payline logic.
+- Reduced big win chaos duration and particle count in stable branch.
+- mobile-lite disables extra chaos and spark bursts.
+
+Reason:
+- Single-file build was useful during prototype phase.
+- Project has now popped and needs modular structure.
