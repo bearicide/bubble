@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Mother's Day Bubble Moovin'! - By MATTBEAR</title>
+<meta name="description" content="Launcher index for Mother's Day Bubble Moovin'! - By MATTBEAR." />
+<style>
+:root{
+  --red:#8f1018;--red2:#c9223a;--cream:#fff3df;--cream2:#ffe1c2;--pink:#ff6fa7;--gold:#ffd166;--ink:#27050b;--deep:#130005;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#130005;color:var(--cream);font-family:Bahnschrift,"Arial Narrow",Arial,sans-serif;overflow-x:hidden}
+body{background:
+ radial-gradient(circle at 12% 10%,rgba(255,209,102,.22),transparent 28%),
+ radial-gradient(circle at 88% 16%,rgba(255,111,167,.26),transparent 32%),
+ radial-gradient(circle at 50% 110%,rgba(255,243,223,.14),transparent 35%),
+ linear-gradient(145deg,#3a020b 0%,#8f1018 48%,#250008 100%)}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;background-image:linear-gradient(30deg,rgba(255,255,255,.08) 12%,transparent 12.5%,transparent 87%,rgba(255,255,255,.08) 87.5%),linear-gradient(150deg,rgba(255,255,255,.08) 12%,transparent 12.5%,transparent 87%,rgba(255,255,255,.08) 87.5%);background-size:54px 92px}
+.wrap{position:relative;z-index:1;width:min(1180px,100%);margin:0 auto;padding:clamp(14px,3vw,28px);display:grid;gap:18px}
+.hero{border:2px solid rgba(255,243,223,.35);border-radius:30px;padding:clamp(18px,4vw,34px);background:linear-gradient(135deg,rgba(255,243,223,.17),rgba(255,111,167,.10));box-shadow:0 24px 80px rgba(0,0,0,.34),inset 0 0 36px rgba(255,255,255,.06);overflow:hidden;position:relative}
+.hero:after{content:"";position:absolute;inset:-40%;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.16) 50%,transparent 65%);animation:shine 5.5s infinite;transform:translateX(-40%) rotate(8deg)}
+@keyframes shine{0%,38%{transform:translateX(-60%) rotate(8deg)}68%,100%{transform:translateX(60%) rotate(8deg)}}
+h1{position:relative;z-index:1;margin:0;text-transform:uppercase;letter-spacing:.04em;font-size:clamp(2.2rem,7vw,6.4rem);line-height:.86;text-shadow:0 5px 0 rgba(40,0,5,.55),0 0 24px rgba(255,209,102,.42)}
+.sub{position:relative;z-index:1;margin-top:12px;font-size:clamp(1rem,2.2vw,1.45rem);color:#ffe9c9;max-width:880px;line-height:1.28}
+.badges{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}.badge{border:1px solid rgba(255,255,255,.35);border-radius:999px;background:rgba(255,243,223,.88);color:var(--ink);font-weight:1000;padding:8px 12px;text-transform:uppercase;box-shadow:0 6px 0 rgba(0,0,0,.18)}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.card{border:2px solid rgba(255,243,223,.34);border-radius:26px;background:rgba(43,12,18,.42);backdrop-filter:blur(7px);box-shadow:0 18px 48px rgba(0,0,0,.28),inset 0 0 26px rgba(255,255,255,.045);padding:16px;display:grid;gap:12px;min-height:100%}.card.featured{background:linear-gradient(160deg,rgba(255,243,223,.21),rgba(255,111,167,.12),rgba(43,12,18,.45));border-color:rgba(255,209,102,.62)}
+.preview{height:190px;border-radius:20px;border:1px solid rgba(255,255,255,.20);background:radial-gradient(circle at 50% 22%,rgba(255,255,255,.18),transparent 30%),linear-gradient(180deg,#fff7ec,#ffd6b8);overflow:hidden;position:relative;display:grid;place-items:center}.orbs{position:absolute;inset:0}.orb{position:absolute;width:54px;height:54px;border-radius:999px;background:radial-gradient(circle at 30% 24%,#fff 0 12%,var(--c) 38%,#7c0617 100%);box-shadow:0 0 20px var(--g),inset -8px -10px 0 rgba(0,0,0,.15);animation:float 3.6s ease-in-out infinite}.orb:nth-child(1){--c:#ff4f8b;--g:#ff4f8b;left:12%;top:18%}.orb:nth-child(2){--c:#ffd166;--g:#ffd166;left:35%;top:34%;animation-delay:.4s}.orb:nth-child(3){--c:#fff3df;--g:#fff3df;left:62%;top:14%;animation-delay:.8s}.orb:nth-child(4){--c:#77ffd7;--g:#77ffd7;left:72%;top:52%;animation-delay:1.2s}.orb:nth-child(5){--c:#c38bff;--g:#c38bff;left:20%;top:62%;animation-delay:1.6s}@keyframes float{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-12px) scale(1.05)}}
+.preview b{position:relative;z-index:1;color:#7d0d18;background:rgba(255,243,223,.82);border-radius:999px;padding:9px 12px;text-transform:uppercase;box-shadow:0 6px 0 rgba(0,0,0,.12)}
+h2{margin:0;color:#ffd166;text-transform:uppercase;letter-spacing:.06em;font-size:1.35rem}.desc{color:#ffe7c7;line-height:1.35;margin:0}.meta{display:grid;gap:6px;color:#fff3dfcc;font-size:.92rem}.meta span{border:1px solid rgba(255,255,255,.12);background:rgba(255,243,223,.10);border-radius:12px;padding:8px 10px}.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:auto}.actions a{display:grid;place-items:center;text-align:center;text-decoration:none;color:#27050b;background:linear-gradient(180deg,#fff9eb,#ffd166 48%,#ff9fbd);border-radius:16px;padding:12px 10px;font-weight:1000;text-transform:uppercase;box-shadow:0 7px 0 rgba(60,0,8,.42),0 0 22px rgba(255,255,255,.16)}.actions a.secondary{background:linear-gradient(180deg,#fff6e7,#ffd9b2)}.actions a:active{transform:translateY(4px);box-shadow:0 3px 0 rgba(60,0,8,.42)}
+.note{border:1px solid rgba(255,255,255,.18);border-radius:20px;background:rgba(255,243,223,.12);padding:14px;color:#ffe5c4;line-height:1.35}.foot{text-align:center;color:rgba(255,243,223,.72);font-size:.9rem;padding:6px 0 12px}
+@media(max-width:900px){.grid{grid-template-columns:1fr}.preview{height:160px}.actions{grid-template-columns:1fr}}@media(max-width:540px){.wrap{padding:10px}.hero{border-radius:22px}.card{border-radius:20px;padding:12px}h1{font-size:clamp(2rem,14vw,4.2rem)}.badge{font-size:.8rem}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <section class="hero">
+    <h1>Mother's Day<br>Bubble Moovin'!</h1>
+    <p class="sub">By MATTBEAR. Pick a build: the premium full-screen showpiece, the compact mobile blast, or the classic red/cream test build. Because apparently one bubble game was not enough for civilization. 🫧💥</p>
+    <div class="badges"><span class="badge">Free Play</span><span class="badge">No Real Money</span><span class="badge">Mouse • Touch • Keyboard</span></div>
+  </section>
+
+  <section class="grid" aria-label="Game versions">
+    <article class="card featured">
+      <div class="preview"><div class="orbs"><i class="orb"></i><i class="orb"></i><i class="orb"></i><i class="orb"></i><i class="orb"></i></div><b>Premium</b></div>
+      <h2>Premium Full Build</h2>
+      <p class="desc">The biggest, flashiest version with level progression, big bright bubbles, splashy FX, powerups, and the general sense that the browser has been handed glitter and poor supervision.</p>
+      <div class="meta"><span>Best for: desktop, GitHub showcase, full version</span><span>File: premium-full.html</span></div>
+      <div class="actions"><a href="premium-full.html">Launch</a><a class="secondary" href="premium-full.html" download>Download</a></div>
+    </article>
+
+    <article class="card">
+      <div class="preview"><div class="orbs"><i class="orb"></i><i class="orb"></i><i class="orb"></i><i class="orb"></i><i class="orb"></i></div><b>Mobile</b></div>
+      <h2>Mobile Blast</h2>
+      <p class="desc">Tall phone-first build with fast tap controls, compact HUD, big shoot button, sparkle toggle, and less scrolling. A rare case where mobile is only mildly cursed.</p>
+      <div class="meta"><span>Best for: phones, Messenger sharing, quick play</span><span>File: mobile-blast.html</span></div>
+      <div class="actions"><a href="mobile-blast.html">Launch</a><a class="secondary" href="mobile-blast.html" download>Download</a></div>
+    </article>
+
+    <article class="card">
+      <div class="preview"><div class="orbs"><i class="orb"></i><i class="orb"></i><i class="orb"></i><i class="orb"></i><i class="orb"></i></div><b>Classic</b></div>
+      <h2>Classic Red/Cream</h2>
+      <p class="desc">The cleaner baseline/tablet-friendly version with side panels, rules, scoring, AFD ring clear, and a readable classic layout. Sensible, which is always suspicious.</p>
+      <div class="meta"><span>Best for: testing, readable rules, desktop/tablet</span><span>File: classic-red-cream.html</span></div>
+      <div class="actions"><a href="classic-red-cream.html">Launch</a><a class="secondary" href="classic-red-cream.html" download>Download</a></div>
+    </article>
+  </section>
+
+  <section class="note">
+    <b>GitHub upload:</b> upload this whole folder. Keep <code>index.html</code> beside the three game files. GitHub Pages will open this launcher first, then each button opens the chosen build.
+  </section>
+
+  <footer class="foot">© 2026 MATTBEAR • Mother's Day Bubble Moovin'! - By MATTBEAR • bearicide.github.io</footer>
+</main>
+</body>
+</html>

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<!-- saved from url=(0081)file:///C:/Users/mattb/Downloads%20-%20MATTBEAR/MATTBEAR%20-%20Bubble%20Moov.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>MATTBEAR - Bubble Moov</title>
+<style>
+  :root{
+    --cream:#fff1dc;
+    --red:#8f1230;
+    --deep:#22000b;
+    --pink:#ff4f8b;
+    --gold:#ffd36b;
+    --mint:#77ffd7;
+    --blue:#69b7ff;
+    --violet:#c38bff;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;touch-action:none;user-select:none}
+  html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#160006;color:var(--cream);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+  body{display:grid;place-items:center;background:
+    radial-gradient(circle at 20% 0%,rgba(255,217,157,.38),transparent 28%),
+    radial-gradient(circle at 85% 18%,rgba(255,75,132,.33),transparent 30%),
+    linear-gradient(180deg,#5c0018 0%,#22000b 55%,#100006 100%)}
+  #app{position:relative;width:min(100vw,520px);height:100dvh;max-height:960px;overflow:hidden;background:
+    linear-gradient(180deg,rgba(255,246,226,.12),rgba(255,246,226,.02)),
+    radial-gradient(circle at 50% 22%,rgba(255,255,255,.10),transparent 46%);
+    border-left:1px solid rgba(255,255,255,.12);border-right:1px solid rgba(255,255,255,.12);box-shadow:0 0 60px rgba(0,0,0,.45)}
+  canvas{display:block;width:100%;height:100%}
+  .topbar{position:absolute;top:calc(env(safe-area-inset-top) + 8px);left:10px;right:10px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;z-index:3;pointer-events:none}
+  .pill{border:1px solid rgba(255,241,220,.28);background:rgba(35,0,12,.55);backdrop-filter:blur(8px);border-radius:999px;padding:8px 10px;font-weight:900;text-shadow:0 2px 3px rgba(0,0,0,.45);box-shadow:0 5px 18px rgba(0,0,0,.25),inset 0 0 20px rgba(255,255,255,.04);font-size:13px;white-space:nowrap;text-align:center}
+  .title{text-align:center;font-weight:1000;letter-spacing:.08em;font-size:clamp(18px,5.4vw,30px);line-height:1;color:#fff;text-shadow:0 0 8px #ff8ab4,0 0 18px #ff336e,0 3px 1px rgba(0,0,0,.45)}
+  .sub{font-size:10px;letter-spacing:.18em;color:#ffd6be;margin-top:2px}
+  .bottom{position:absolute;left:10px;right:10px;bottom:calc(env(safe-area-inset-bottom) + 10px);display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:8px;align-items:center;z-index:4}
+  button{touch-action:manipulation;border:0;border-radius:18px;padding:12px 8px;font-weight:1000;letter-spacing:.05em;color:#2a000d;background:linear-gradient(180deg,#fff4dd,#ffb0c9 55%,#ff4c86);box-shadow:0 6px 0 #7f0d2b,0 0 20px rgba(255,78,137,.38);text-shadow:0 1px 0 rgba(255,255,255,.45);min-height:50px}
+  button:active{transform:translateY(4px);box-shadow:0 2px 0 #7f0d2b,0 0 14px rgba(255,78,137,.5)}
+  #shootBtn{font-size:18px;min-height:62px;background:linear-gradient(180deg,#fffbe8 0%,#ffd36b 35%,#ff4f8b 100%);box-shadow:0 8px 0 #7f0d2b,0 0 28px rgba(255,211,107,.45)}
+  .toast{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(.95);padding:16px 20px;border-radius:24px;background:rgba(30,0,10,.72);border:1px solid rgba(255,255,255,.22);box-shadow:0 0 40px rgba(255,80,140,.42);text-align:center;z-index:5;opacity:0;pointer-events:none;transition:.2s;font-weight:1000;text-shadow:0 2px 3px #000;max-width:88%}
+  .toast.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  .toast .big{font-size:clamp(28px,9vw,52px);line-height:1;color:white;text-shadow:0 0 15px #ff4f8b,0 0 30px #ffd36b}
+  .toast .small{margin-top:8px;color:#ffe5c8;font-size:14px}
+  .help{position:absolute;left:12px;right:12px;top:calc(env(safe-area-inset-top) + 62px);font-size:12px;text-align:center;color:#ffe4cc;text-shadow:0 2px 3px #000;opacity:.86;z-index:2;pointer-events:none}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="topbar">
+    <div class="pill" id="scoreEl">SCORE 1440</div>
+    <div><div class="title">BUBBLE MOOV</div><div class="sub">MOTHER'S DAY BLAST</div></div>
+    <div class="pill" id="movesEl">SHOTS 11</div>
+  </div>
+  <div class="help" id="helpEl">Drag to aim. Tap SHOOT. Match 3+ colors. AFD clears a ring.</div>
+  <canvas id="game" aria-label="Bubble shooter game" width="683" height="906" style="width: 519px; height: 689px;"></canvas>
+  <div class="toast" id="toast"><div class="big" id="toastBig">BUBBLE MOOV</div><div class="small" id="toastSmall">Aim, shoot, match 3+. AFD is the loud one.</div></div>
+  <div class="bottom">
+    <button id="restartBtn">RESTART</button>
+    <button id="shootBtn">SHOOT</button>
+    <button id="sparkleBtn">SPARKLE OFF</button>
+  </div>
+</div>
+<script>
+(() => {
+  'use strict';
+  const canvas = document.getElementById('game');
+  const ctx = canvas.getContext('2d');
+  const app = document.getElementById('app');
+  const scoreEl = document.getElementById('scoreEl');
+  const movesEl = document.getElementById('movesEl');
+  const restartBtn = document.getElementById('restartBtn');
+  const shootBtn = document.getElementById('shootBtn');
+  const sparkleBtn = document.getElementById('sparkleBtn');
+  const toast = document.getElementById('toast');
+  const toastBig = document.getElementById('toastBig');
+  const toastSmall = document.getElementById('toastSmall');
+
+  const palette = [
+    {name:'ROSE', fill:'#ff4f8b', glow:'#ff9fc0'},
+    {name:'CREAM', fill:'#ffe5a8', glow:'#fff7d7'},
+    {name:'MINT', fill:'#72ffd4', glow:'#c8fff0'},
+    {name:'BLUE', fill:'#66b7ff', glow:'#cfe9ff'},
+    {name:'VIOLET', fill:'#c38bff', glow:'#ecd7ff'}
+  ];
+  const afd = {name:'AFD', fill:'#ffffff', glow:'#ffd36b', special:true};
+
+  let W = 0, H = 0, dpr = 1;
+  let R = 17, rowGap = 29, colGap = 34, topPad = 96;
+  let grid = [];
+  let rows = 9, cols = 12;
+  let shooter, projectile = null;
+  let score = 0, shots = 0, sparkle = true, running = true;
+  let particles = [], floatTexts = [];
+  let aimPoint = {x:0,y:0};
+
+  const rand = (n) => Math.floor(Math.random() * n);
+  const pickColor = () => palette[rand(palette.length)];
+  const maybeBall = () => Math.random() < 0.07 ? afd : pickColor();
+
+  function resize(){
+    const rect = app.getBoundingClientRect();
+    W = Math.floor(rect.width); H = Math.floor(rect.height); dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+    canvas.width = Math.floor(W * dpr); canvas.height = Math.floor(H * dpr);
+    canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    R = Math.max(14, Math.min(22, W * 0.041));
+    colGap = R * 2.08; rowGap = R * 1.78;
+    cols = Math.floor((W - R * 2) / colGap);
+    topPad = Math.max(90, H * 0.115);
+    if (shooter) shooter.y = H - 103;
+  }
+
+  function gridX(r,c){
+    const used = (cols - 1) * colGap;
+    const start = (W - used) / 2;
+    return start + c * colGap + (r % 2 ? colGap/2 : 0);
+  }
+  function gridY(r){ return topPad + r * rowGap; }
+
+  function makeGrid(){
+    grid = [];
+    rows = Math.max(7, Math.min(11, Math.floor((H - 250) / rowGap)));
+    for(let r=0; r<rows; r++){
+      const row = [];
+      for(let c=0; c<cols; c++){
+        const activeRows = Math.max(5, Math.min(rows, 8));
+        row.push(r < activeRows ? {r,c,type:maybeBall(), stuck:true} : null);
+      }
+      grid.push(row);
+    }
+  }
+
+  function reset(){
+    resize(); score = 0; shots = 0; projectile = null; particles = []; floatTexts = []; running = true;
+    shooter = {x:W/2,y:H-103,angle:-Math.PI/2,current:pickColor(),next:pickColor()};
+    aimPoint = {x: W/2, y: H/2};
+    makeGrid();
+    syncHud();
+    showToast('BUBBLE MOOV', 'Aim, shoot, match 3+. AFD is the loud one.', 1100);
+  }
+
+  function syncHud(){
+    scoreEl.textContent = 'SCORE ' + score;
+    movesEl.textContent = 'SHOTS ' + shots;
+  }
+
+  let toastTimer = 0;
+  function showToast(big, small, ms=850){
+    toastBig.textContent = big; toastSmall.textContent = small; toast.classList.add('show');
+    clearTimeout(toastTimer); toastTimer = setTimeout(()=>toast.classList.remove('show'), ms);
+  }
+
+  function aimAt(x,y){
+    aimPoint = {x,y};
+    let a = Math.atan2(y - shooter.y, x - shooter.x);
+    const min = -Math.PI + 0.17, max = -0.17;
+    if(a > 0) a = x < shooter.x ? min : max;
+    a = Math.max(min, Math.min(max, a));
+    shooter.angle = a;
+  }
+
+  function shoot(){
+    if(projectile || !running) return;
+    shots++;
+    projectile = {x:shooter.x, y:shooter.y - R - 4, vx:Math.cos(shooter.angle)*9.4, vy:Math.sin(shooter.angle)*9.4, type:shooter.current};
+    shooter.current = shooter.next;
+    shooter.next = Math.random() < 0.06 ? afd : pickColor();
+    syncHud();
+  }
+
+  function nearestCell(x,y){
+    let best = {r:0,c:0,d:Infinity};
+    for(let r=0; r<rows; r++){
+      for(let c=0; c<cols; c++){
+        const gx = gridX(r,c), gy = gridY(r);
+        const d = Math.hypot(x-gx,y-gy);
+        if(d < best.d) best = {r,c,d};
+      }
+    }
+    best.r = Math.max(0, Math.min(rows-1,best.r));
+    best.c = Math.max(0, Math.min(cols-1,best.c));
+    if(grid[best.r][best.c]){
+      const open = neighbors(best.r,best.c).filter(n => !grid[n.r][n.c]);
+      if(open.length){
+        open.sort((a,b)=>Math.hypot(x-gridX(a.r,a.c),y-gridY(a.r))-Math.hypot(x-gridX(b.r,b.c),y-gridY(b.r,b.c)));
+        best = {...open[0], d:0};
+      }
+    }
+    return best;
+  }
+
+  function neighbors(r,c){
+    const even = r % 2 === 0;
+    const dirs = even ? [[0,-1],[0,1],[-1,-1],[-1,0],[1,-1],[1,0]] : [[0,-1],[0,1],[-1,0],[-1,1],[1,0],[1,1]];
+    const out = [];
+    for(const [dr,dc] of dirs){
+      const nr=r+dr, nc=c+dc;
+      if(nr>=0 && nr<rows && nc>=0 && nc<cols) out.push({r:nr,c:nc});
+    }
+    return out;
+  }
+
+  function placeProjectile(){
+    if(!projectile) return;
+    const cell = nearestCell(projectile.x, projectile.y);
+    grid[cell.r][cell.c] = {r:cell.r,c:cell.c,type:projectile.type, stuck:true, popScale:1};
+    const placed = grid[cell.r][cell.c];
+    projectile = null;
+    burst(gridX(cell.r,cell.c), gridY(cell.r), placed.type.glow, 14);
+
+    if(placed.type.special){
+      const ring = [cell, ...neighbors(cell.r,cell.c), ...neighbors(cell.r,cell.c).flatMap(n=>neighbors(n.r,n.c))];
+      const seen = new Set(); let count = 0;
+      for(const n of ring){
+        const key = n.r+','+n.c;
+        if(seen.has(key)) continue; seen.add(key);
+        if(grid[n.r] && grid[n.r][n.c]){ popCell(n.r,n.c); count++; }
+      }
+      score += count * 90;
+      addFloat(gridX(cell.r,cell.c), gridY(cell.r), 'AFD +' + (count*90));
+      showToast('AFD BLAST', 'Cleared the neighborhood. Subtle, naturally.', 900);
+    } else {
+      const match = findMatch(cell.r, cell.c, placed.type.name);
+      if(match.length >= 3){
+        for(const m of match) popCell(m.r,m.c);
+        score += match.length * 120;
+        addFloat(gridX(cell.r,cell.c), gridY(cell.r), '+' + (match.length*120));
+        dropFloaters();
+      }
+    }
+    syncHud();
+    checkEnd();
+  }
+
+  function findMatch(r,c,name){
+    const seen = new Set(), stack = [{r,c}], out = [];
+    while(stack.length){
+      const n = stack.pop(), key = n.r+','+n.c;
+      if(seen.has(key)) continue; seen.add(key);
+      const b = grid[n.r] && grid[n.r][n.c];
+      if(!b || b.type.name !== name || b.type.special) continue;
+      out.push(n);
+      for(const nb of neighbors(n.r,n.c)) stack.push(nb);
+    }
+    return out;
+  }
+
+  function popCell(r,c){
+    const b = grid[r] && grid[r][c];
+    if(!b) return;
+    burst(gridX(r,c), gridY(r), b.type.glow, 10);
+    grid[r][c] = null;
+  }
+
+  function dropFloaters(){
+    const connected = new Set(), stack = [];
+    for(let c=0;c<cols;c++) if(grid[0][c]) stack.push({r:0,c});
+    while(stack.length){
+      const n = stack.pop(), key=n.r+','+n.c;
+      if(connected.has(key)) continue; connected.add(key);
+      for(const nb of neighbors(n.r,n.c)) if(grid[nb.r][nb.c]) stack.push(nb);
+    }
+    let dropped = 0;
+    for(let r=0;r<rows;r++) for(let c=0;c<cols;c++){
+      if(grid[r][c] && !connected.has(r+','+c)){
+        const b = grid[r][c];
+        burst(gridX(r,c), gridY(r), b.type.fill, 6);
+        grid[r][c] = null; dropped++;
+      }
+    }
+    if(dropped){ score += dropped * 170; addFloat(W/2, topPad + rows*rowGap*.45, 'DROP +' + (dropped*170)); }
+  }
+
+  function checkEnd(){
+    let left = 0, danger = false;
+    for(let r=0;r<rows;r++) for(let c=0;c<cols;c++) if(grid[r][c]){ left++; if(gridY(r) > H-185) danger = true; }
+    if(left === 0){ running = false; showToast('CLEARED!', 'Somehow, bubbles lost to humanity.', 2000); }
+    if(danger){ running = false; showToast('GAME OVER', 'The bubbles reached the floor. Tragic little orbs.', 2000); }
+  }
+
+  function burst(x,y,color,count){
+    if(!sparkle) return;
+    for(let i=0;i<count;i++){
+      const a = Math.random()*Math.PI*2, s = 1+Math.random()*4;
+      particles.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:24+rand(20),color,size:2+Math.random()*3});
+    }
+  }
+  function addFloat(x,y,text){ floatTexts.push({x,y,text,life:55}); }
+
+  function update(){
+    if(projectile){
+      projectile.x += projectile.vx; projectile.y += projectile.vy;
+      if(projectile.x < R){ projectile.x = R; projectile.vx *= -1; }
+      if(projectile.x > W - R){ projectile.x = W - R; projectile.vx *= -1; }
+      let hit = projectile.y < topPad - R;
+      if(!hit){
+        outer: for(let r=0;r<rows;r++){
+          for(let c=0;c<cols;c++){
+            const b = grid[r][c]; if(!b) continue;
+            if(Math.hypot(projectile.x-gridX(r,c), projectile.y-gridY(r)) < R*1.82){ hit = true; break outer; }
+          }
+        }
+      }
+      if(hit) placeProjectile();
+    }
+    for(const p of particles){ p.x+=p.vx; p.y+=p.vy; p.vy+=.035; p.life--; }
+    particles = particles.filter(p=>p.life>0);
+    for(const f of floatTexts){ f.y-=.8; f.life--; }
+    floatTexts = floatTexts.filter(f=>f.life>0);
+  }
+
+  function drawBall(x,y,type,r=R){
+    ctx.save();
+    ctx.shadowColor = type.glow; ctx.shadowBlur = type.special ? 20 : 12;
+    const g = ctx.createRadialGradient(x-r*.35,y-r*.38,r*.08,x,y,r);
+    g.addColorStop(0,'#fff'); g.addColorStop(.32,type.glow); g.addColorStop(1,type.fill);
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+    ctx.lineWidth = Math.max(1.5,r*.08); ctx.strokeStyle='rgba(255,255,255,.68)'; ctx.stroke();
+    ctx.fillStyle='rgba(255,255,255,.75)'; ctx.beginPath(); ctx.ellipse(x-r*.28,y-r*.32,r*.22,r*.12,-.55,0,Math.PI*2); ctx.fill();
+    if(type.special){
+      ctx.fillStyle='#610019'; ctx.font = '900 '+Math.floor(r*.64)+'px system-ui'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('AFD',x,y+1);
+    }
+    ctx.restore();
+  }
+
+  function render(){
+    ctx.clearRect(0,0,W,H);
+    ctx.save();
+    ctx.globalAlpha=.24;
+    for(let i=0;i<24;i++){
+      const x=(i*73 + performance.now()*.018)%W, y=(i*119 + performance.now()*.012)%H;
+      ctx.fillStyle=i%2?'#ffd36b':'#ff7aaa'; ctx.beginPath(); ctx.arc(x,y,1.5+(i%5),0,Math.PI*2); ctx.fill();
+    }
+    ctx.restore();
+
+    for(let r=0;r<rows;r++) for(let c=0;c<cols;c++) if(grid[r][c]) drawBall(gridX(r,c), gridY(r), grid[r][c].type);
+
+    ctx.save();
+    ctx.strokeStyle='rgba(255,241,220,.62)'; ctx.lineWidth=4; ctx.setLineDash([10,12]); ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(shooter.x,shooter.y);
+    ctx.lineTo(shooter.x+Math.cos(shooter.angle)*120, shooter.y+Math.sin(shooter.angle)*120); ctx.stroke();
+    ctx.restore();
+
+    drawBall(shooter.x, shooter.y, shooter.current, R*1.2);
+    drawBall(W-46, H-82, shooter.next, R*.82);
+    ctx.fillStyle='rgba(255,241,220,.86)'; ctx.font='900 10px system-ui'; ctx.textAlign='center'; ctx.fillText('NEXT', W-46, H-54);
+    if(projectile) drawBall(projectile.x, projectile.y, projectile.type, R*.98);
+
+    for(const p of particles){
+      ctx.globalAlpha=Math.max(0,p.life/44); ctx.fillStyle=p.color; ctx.beginPath(); ctx.arc(p.x,p.y,p.size,0,Math.PI*2); ctx.fill(); ctx.globalAlpha=1;
+    }
+    ctx.textAlign='center'; ctx.textBaseline='middle';
+    for(const f of floatTexts){
+      ctx.globalAlpha=Math.max(0,f.life/55); ctx.font='1000 24px system-ui'; ctx.fillStyle='#fff'; ctx.shadowColor='#ff4f8b'; ctx.shadowBlur=18; ctx.fillText(f.text,f.x,f.y); ctx.shadowBlur=0; ctx.globalAlpha=1;
+    }
+  }
+
+  function loop(){ update(); render(); requestAnimationFrame(loop); }
+
+  canvas.addEventListener('pointermove', e => { const r=canvas.getBoundingClientRect(); aimAt(e.clientX-r.left,e.clientY-r.top); });
+  canvas.addEventListener('pointerdown', e => { const r=canvas.getBoundingClientRect(); aimAt(e.clientX-r.left,e.clientY-r.top); shoot(); });
+  shootBtn.addEventListener('click', shoot);
+  restartBtn.addEventListener('click', reset);
+  sparkleBtn.addEventListener('click', () => { sparkle = !sparkle; sparkleBtn.textContent = sparkle ? 'SPARKLE ON' : 'SPARKLE OFF'; });
+  window.addEventListener('keydown', e => {
+    if(e.code === 'Space'){ e.preventDefault(); shoot(); }
+    if(e.code === 'ArrowLeft'){ shooter.angle = Math.max(-Math.PI + .17, shooter.angle - .08); }
+    if(e.code === 'ArrowRight'){ shooter.angle = Math.min(-.17, shooter.angle + .08); }
+    if(e.code === 'KeyR') reset();
+  });
+  window.addEventListener('resize', () => { const old = grid.flat().filter(Boolean).length; resize(); if(!old) reset(); });
+
+  reset(); loop();
+})();
+</script>
+
+
+</body></html>
